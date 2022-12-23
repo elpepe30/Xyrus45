@@ -22,8 +22,8 @@ for (const file of slashcommandsFiles) {
 })
 
 
-mongoose.connect((process.env['Mongodb']), {
-
+mongoose.connect("mongodb+srv://xyrus1234:NOTHING@cluster0.xrkrple.mongodb.net/?retryWrites=true&w=majority", {
+    strictQuery: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
