@@ -1,0 +1,43 @@
+const { SlashCommandBuilder } = require("@discordjs/builders")
+const { EmbedBuilder, PermissionFlagsBits, ButtonStyle } = require("discord.js")
+const Discord = require("discord.js")
+const bs = require("../../Schemas/BienvenidasSchema")
+
+module.exports = {
+  data: new SlashCommandBuilder()
+  .setName("setup-bienvenidas")
+  .setDescription("Ejecuta el sistema de bienvenidas.")
+  .addChannelOption(options => options.setName(`canal`).setDescription(`El canal donde se enviara la imagen de bienvenida.`).setRequired(true)),
+  
+  
+  run: async (client, interaction) => {
+
+     if(!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) return interaction.reply({ content: "No puedes utilizar este comando .", ephemeral: true })
+
+    if(!interaction.guild.members.me.permissions.has(PermissionFlagsBits.Administrator)) return interaction.reply({ content: '¡No tengo permisos para esto!', ephemeral: true })
+
+    const canal = interaction.options.getChannel("canal")
+
+        let data = await bs.findOne({guildID: interaction.guild.id})
+
+        if(!data){
+          await new bs({
+            guildID: interaction.guild.id,
+            cID: canal.id
+          }).save()
+        }
+
+        await bs.findOneAndUpdate({
+          guildID: interaction.guild.id,
+          cID: canal.id
+        })
+ 
+        
+        const embed = new Discord.EmbedBuilder()
+        .setDescription(`El sistema de bienvenidas a sido ejecutado correctamente el canal para las bienvenidas sera <#${canal.id}>`)
+
+      
+          interaction.reply({ embeds: [embed],ephemeral: true})  
+   
+  }
+}
