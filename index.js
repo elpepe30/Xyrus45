@@ -22,10 +22,8 @@ for (const file of slashcommandsFiles) {
 })
 
 
-mongoose.connect("mongodb+srv://xyrus1234:NOTHING@cluster0.xrkrple.mongodb.net/?retryWrites=true&w=majority", {
-    strictQuery: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+mongoose.connect(process.env['MongoDB'], {
+ 
 }).then(() => {
 var table = new AsciiTable('🛰️ Estado de MongoDB 🛰️')
 table
@@ -44,11 +42,11 @@ const time = (1000*5)
 
   let status = [
     [{
-      name: `/help | @Xyrus`, ////aqui poner lo que quieras de status////
+      name: `/help | @Winter`, ////aqui poner lo que quieras de status////
       type: ActivityType.Playing
     }],
     [{
-      name: `1.0.0 | #Xyrus`,
+      name: `1.0.0 | #Winter`,
       type: ActivityType.Watching
     }],
     [{
@@ -82,16 +80,7 @@ process.on("unhandledRejection", (reason) => console.log(`\x1b[91m\x1b[1m${reaso
 process.on("shardError", (err) => console.log(`\x1b[91m\x1b[1m${reason.stack}\x1b[0m`))
 //AntiCrash\\
 
-//Rol Arcoiris\\
-client.on("ready", () => {
-    const guild1 = client.guilds.cache.get("1042182580650393640")
-    const colorRole = guild1.roles.cache.find(x => x.id === "1042246239892287588");
-    setInterval(() => {
-        colorRole.edit({
-            color: Math.floor(Math.random() * 16777215).toString(16)
-        })
-    }, 60000);
-})
+
 
 ///Cuando mencionan el bot///
 client.on('messageCreate', async (message) => {
@@ -104,29 +93,23 @@ client.on('messageCreate', async (message) => {
       .addComponents([
         new Discord.ButtonBuilder({
           style: ButtonStyle.Link,
-         url: "https://discord.com/oauth2/authorize?client_id=1042170678725582848&permissions=536870382718&scope=bot%20applications.commands",
+         url: process.env['BotInv'],
           label: "Invitame",
           emoji: "🤖",
         }),
         new Discord.ButtonBuilder({
           style: ButtonStyle.Link,
-           url: "https://discord.gg/x6hTAVYN35",
+           url: process.env['Servidorsoporte'],
           label: "Soporte",
           emoji: "🛠️",
-        }), //Xd
-                      new Discord.ButtonBuilder({
-          style: ButtonStyle.Link,
-          url: "https://Xyrus.wolf-gamergame1.repl.co",
-          label: "Mi web En Desarrollo",
-          emoji: "🖥️",
-        }),
+        }), 
     ])
 
       const embed = new Discord.EmbedBuilder()
-       .setTitle("**Xyrus**") 
-       .setDescription(`Hola soy Xyrus utiliza **</help:1042183845497286749>** para ver mis comandos \n si necesitas ayuda unete a mi servidor de soporte \n  invitame a tu servidor para disfrutar de mis comandos `)
+       .setTitle("**Winter**") 
+       .setDescription(`Hola soy winter utiliza **</help:1188487668607225883>** para ver mis comandos \n si necesitas ayuda unete a mi servidor de soporte \n  invitame a tu servidor para disfrutar de mis comandos `)
        .setTimestamp()
-       .setColor(" #FFFFFF")
+    
 
       message.channel.send({ embeds: [embed], components: [links] })
   
@@ -412,20 +395,19 @@ if(interaction.customId == "verificarse") {
 const bs = require("./Schemas/BienvenidasSchema")
 
 
-client.on("interactionCreate", async interaction  => {
+
 
 client.on("guildMemberAdd", async member  => {
+  
 
-  const bienvenidas = require("./Schemas/BienvenidasSchema")
 
   const moment = require('moment');
 
-  let canale = await bs.findOne({ guildID: interaction.guild.id })
+  let canale = await bs.findOne({ guildID: member.guild.id })
 
   const naotori = require('naotori')
 
   const holaCard = await new naotori.WelcomeCard()
-.setBackground('https://cdn.discordapp.com/attachments/1042246663743483996/1050134930543366246/fondo_transparente_png_by_imsnowbieber_d3jme6i-fullview.png')
 .setMemberIcon(member.user.displayAvatarURL({ extension: 'png', size: 4096}))
 .setCircleColor('WHITE')
 .setTitle(`Bienvenid@ ${member.user.username}`)
@@ -438,39 +420,40 @@ const imagenhola = new Discord.AttachmentBuilder(cardhola, { name: 'bienvenida.p
  client.channels.cache.get(canale.cID).send({ files:[imagenhola], })
 
 })
- })
-
-
+ 
 //Despedidas\\
 
-const ds = require("./Schemas/DespedidasSchema")
+//const ds = require("./Schemas/DespedidasSchema")
 
 
-client.on("interactionCreate", async interaction  => {
 
-client.on("guildMemberRemove", async member  => {
 
-  const moment = require('moment');
+//client.on("guildMemberRemove", async member  => {
+  
 
-  let canale = await ds.findOne({ guildID: interaction.guild.id })
 
-  const naotori = require('naotori')
+  //const moment = require('moment');
 
-  const holaCard = await new naotori.WelcomeCard()
-.setBackground('https://cdn.discordapp.com/attachments/1042246663743483996/1050134930543366246/fondo_transparente_png_by_imsnowbieber_d3jme6i-fullview.png')
-.setMemberIcon(member.user.displayAvatarURL({ extension: 'png', size: 4096}))
-.setCircleColor('WHITE')
-.setTitle(`Adios ${member.user.username}`)
-.setDescription('Esperamos volver a verte')
-.setFont('DEFAULT')
+  //let canale = await ds.findOne({ guildID: member.guild.id })
 
-let cardhola = await holaCard.render()
-const imagenhola = new Discord.AttachmentBuilder(cardhola, { name: 'bienvenida.png' });
+  //const naotori = require('naotori')
 
- client.channels.cache.get(canale.canalID).send({ files:[imagenhola], })
+  //const holaCard = await new naotori.WelcomeCard()
+//.setMemberIcon(member.user.displayAvatarURL({ extension: 'png', size: 4096}))
+//.setCircleColor('WHITE')
+//.setTitle(`Adios ${member.user.username}`)
+//.setDescription('Espero que algun dia regreses')
+//.setFont('DEFAULT')
 
-})
- })
+//let cardhola = await holaCard.render()
+//const imagenhola = new Discord.AttachmentBuilder(cardhola, { name: 'bienvenida.png' });
+
+ //client.channels.cache.get(canale.cID).send({ files:[imagenhola], })
+
+
+//})
+//Despedidas\\
+
 
 
 
@@ -592,4 +575,4 @@ fs.readdirSync('./Events').forEach(async(categorias) => {
     client.on(event.name, (...args) => event.run(client, ...args));
   }
 })
-client.login("MTA0MjE3MDY3ODcyNTU4Mjg0OA.GIx9d8.Zsn_38qZFuBk174d_1P6LstsetHfXe0j_JoVtQ")
+client.login(process.env['Token'])
